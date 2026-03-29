@@ -33,13 +33,13 @@
 
       /* Кастомные акценты для светлой темы (жёлтый + чёрный) */
       .light-theme {
-        --bg-page: #fef9e6;
+        --bg-page: #f2d9ff;
         --bg-card: #ffffff;
         --text-primary: #111111;
         --text-secondary: #3a3a3a;
-        --accent: #f5b700;
-        --accent-dark: #d49a00;
-        --border: #f0e1b9;
+        --accent: #c47cff;
+        --accent-dark: #aa00d4;
+        --border: #dcb9f0;
         --header-bg: rgba(255, 255, 255, 0.92);
         --shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08);
       }
@@ -50,11 +50,11 @@
         --bg-card: #1a1a1a;
         --text-primary: #f5f5f5;
         --text-secondary: #c0c0c0;
-        --accent: #ffd966;
-        --accent-dark: #f5c542;
+        --accent: #ba66ff;
+        --accent-dark: #a442f5;
         --border: #2c2c2c;
         --header-bg: rgba(10, 10, 10, 0.92);
-        --shadow: 0 20px 35px -12px rgba(255, 215, 0, 0.1);
+        --shadow: 0 20px 35px -12px rgba(212, 0, 255, 0.1);
       }
 
       body {
@@ -197,14 +197,14 @@
         <!-- Мобильные кнопки (видны только на телефонах) -->
         <div class="flex md:hidden items-center gap-2">
           <button
-            id="themeToggleBtn"
+            id="mobileThemeToggle"
             class="w-8 h-8 rounded-full flex items-center justify-center"
             style="background: var(--accent); color: #0a0a0a"
           >
             <i id="mobileThemeIcon" class="fas fa-moon text-sm"></i>
           </button>
           <button
-            id="downloadPdfBtn"
+            id="mobileDownloadPdfBtn"
             class="w-8 h-8 rounded-full flex items-center justify-center"
             style="background: var(--accent); color: #0a0a0a"
           >
@@ -1208,7 +1208,7 @@
             {
               label: "Кол-во респондентов (из 6)",
               data: [5, 4, 4, 4, 3],
-              backgroundColor: "#f5b700",
+              backgroundColor: "#8a2be2",
               borderRadius: 12,
               barPercentage: 0.6,
               categoryPercentage: 0.8,
@@ -1254,6 +1254,35 @@
           },
         },
       });
+
+      const mobileThemeBtn = document.getElementById("mobileThemeToggle");
+      const mobileThemeIcon = document.getElementById("mobileThemeIcon");
+
+      if (mobileThemeBtn) {
+        mobileThemeBtn.addEventListener("click", () => {
+          const isDark = body.classList.contains("dark-theme");
+          setTheme(isDark ? "light" : "dark");
+          // синхронизируем иконку на мобильной кнопке
+          if (mobileThemeIcon) {
+            if (body.classList.contains("dark-theme")) {
+              mobileThemeIcon.classList.remove("fa-moon");
+              mobileThemeIcon.classList.add("fa-sun");
+            } else {
+              mobileThemeIcon.classList.remove("fa-sun");
+              mobileThemeIcon.classList.add("fa-moon");
+            }
+          }
+        });
+      }
+
+      // Мобильная кнопка PDF
+      const mobilePdfBtn = document.getElementById("mobileDownloadPdfBtn");
+      if (mobilePdfBtn) {
+        mobilePdfBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          window.open("https://disk.yandex.ru/i/19h7bnkjeG8c6Q", "_blank");
+        });
+      }
 
       // Обновление цвета диаграммы при смене темы не критично, но оставим как есть (желтый акцент везде)
       // Дополнительно: для ресайза/адаптивности мобильный вид уже tailwind
